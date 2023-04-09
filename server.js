@@ -2,6 +2,8 @@
 const { error } = require('console');
 const express = require('express');
 
+let noteUpdate = '';
+
 // Import file system so i can update other files with data
 const fs = require('fs');
 
@@ -34,29 +36,53 @@ app.get('/api/notes', (req, res) =>
   res.sendFile(path.join(__dirname, 'db/db.json'))
 );
 
-app.post('/api/notes',(req, res)=>{
-    console.log("POST Request is working"),
-    console.log("Method",req.method),
-    console.log("body",req.body)
+app.post('/api/notes',(req, res) => {
+    // console.log("POST Request is working"),
+    // console.log("Method",req.method),
+    // console.log("body",req.body)
     const {title, text} = req.body;
 
     console.log('title',title);
     console.log('text', text);
 
+    if(title && text){
+        noteUpdate = {
+            title: title,
+            text: text
+        }
+    }
 
-    // if(title && text){
-    //     const noteUpdate = {
-    //         title: title,
-    //         text: text
-    //     }
+    fs.readFile('./db/db.json', 'utf8',(err, data) =>
+    {
 
-    //     fs.writeFile('./db/db.json',JSON.stringify(noteUpdate), (err) =>
-    //     err
-    //         ? console.error(err)
-    //         : console.log(`Review for ${noteUpdate} has been written to JSON`)
-    //     );
-    //}
+        if(err){
+            console.error(err);
+        }else
+        {
+            // Converting the strign into an JSON obj
+            currentNotes = JSON.parse(data);
+            console.log('data:', data);
+            console.log('data string:', currentNotes);
+
+            // Now lets add additional note from user input
+            currentNotes.push(noteUpdate);
+
+            console.log('update file', currentNotes);
+        }
+    
+        
+            // converting string back to JSON notation and writing it to the db.json file
+            fs.writeFile('./db/db.json',JSON.stringify(currentNotes), (err) =>
+            err
+                ? console.error(err)
+                : console.log(`Review for ${noteUpdate} has been written to JSON`)
+            );
+        
+    
+    })
 });
+    
+
 
 // listen() method is responsible for listening for incoming connections on the specified port 
 app.listen(PORT, () =>
