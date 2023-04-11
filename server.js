@@ -32,9 +32,33 @@ app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, 'public/notes.html'))
 );
 
-app.get('/api/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, 'db/db.json'))
-);
+app.get('/api/notes', (req, res) =>{
+  res.sendFile(path.join(__dirname, 'db/db.json'));
+
+  // do a fs readfile
+//   fs.readFile('./db/db.json', 'utf8',(err, data) =>
+//   {
+
+//       if(err){
+//           console.error(err);
+//       }else
+//       {
+          // Converting the string into an JSON obj
+          //currentNotes = JSON.parse(data);
+         // console.log('data:', data);
+        //  console.log('data string:', currentNotes);
+
+          // Now lets add additional note from user input
+        //   currentNotes.push(noteUpdate);
+
+        //   console.log('update file', currentNotes);
+//       }
+//     }
+// )
+
+
+
+});
 
 app.post('/api/notes',(req, res) => {
     // console.log("POST Request is working"),
@@ -59,7 +83,7 @@ app.post('/api/notes',(req, res) => {
             console.error(err);
         }else
         {
-            // Converting the strign into an JSON obj
+            // Converting the string into an JSON obj
             currentNotes = JSON.parse(data);
             console.log('data:', data);
             console.log('data string:', currentNotes);
@@ -77,11 +101,29 @@ app.post('/api/notes',(req, res) => {
                 ? console.error(err)
                 : console.log(`Review for ${noteUpdate} has been written to JSON`)
             );
-        
+       
     
     })
 });
-    
+
+
+app.delete('/api/notes',(req, res) => {
+
+    console.log('delete section is working');
+});
+
+function readJsonFile()
+{
+     fs.readFile('./db/db.json', 'utf8',(err, data) =>
+    {
+        console.log('Reading JSON file again');
+
+        if(err){
+            console.error(err);
+        }
+    })
+
+}
 
 
 // listen() method is responsible for listening for incoming connections on the specified port 
