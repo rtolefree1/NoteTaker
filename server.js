@@ -37,24 +37,10 @@ app.get('/api/notes', (req, res) =>{
 
   // do a fs readfile
 //   fs.readFile('./db/db.json', 'utf8',(err, data) =>
-//   {
 
-//       if(err){
-//           console.error(err);
-//       }else
-//       {
-          // Converting the string into an JSON obj
-          //currentNotes = JSON.parse(data);
-         // console.log('data:', data);
-        //  console.log('data string:', currentNotes);
-
-          // Now lets add additional note from user input
-        //   currentNotes.push(noteUpdate);
-
-        //   console.log('update file', currentNotes);
-//       }
-//     }
-// )
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+})
 
 
 
